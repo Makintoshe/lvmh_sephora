@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../.idea/DataspellProjects.iml" filepath="$PROJECT_DIR$/../.idea/DataspellProjects.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../client_Manager/.idea/client_Manager.iml" filepath="$PROJECT_DIR$/../client_Manager/.idea/client_Manager.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../client_user_app/.idea/client_user_app.iml" filepath="$PROJECT_DIR$/../client_user_app/.idea/client_user_app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../client_user_dev/.idea/client_user_dev.iml" filepath="$PROJECT_DIR$/../client_user_dev/.idea/client_user_dev.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../lvmh_sephora/.idea/pythonProject.iml" filepath="$PROJECT_DIR$/../lvmh_sephora/.idea/pythonProject.iml" />
+    </modules>
+  </component>
+</project>
