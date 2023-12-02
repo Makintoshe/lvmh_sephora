@@ -74,7 +74,7 @@ Pour notre API, avons utilisé :
 fastAPI donne la posisbilité d'accéder à une documentation générée automatiquement à partir de ce lien : 
 `http://127.0.0.1:5000/docs`
 
-![img.png](utils/img.png)
+![img.png](utils/imgFast.png)
 
 ## Configuration
 
