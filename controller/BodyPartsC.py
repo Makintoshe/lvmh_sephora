@@ -5,14 +5,17 @@ class Body_parts:
 
     @staticmethod
     def visualiserBP():
-
+        '''
+        Visualise tous les body parts.
+        @return: Liste de body parts.
+        '''
         try:
 
             bpDAO = BodyPartsDAO()
 
             bps: list[BodyPartsM.Body_parts] = bpDAO.trouverTout()
 
-            if bps!=None :
+            if bps==None :
                 return "ERROR"
 
             return bps
@@ -24,14 +27,18 @@ class Body_parts:
 
     @staticmethod
     def visualiserUnBP(idBP):
-
+        '''
+        Visualise un body part spécifique.
+        @param idBP: ID du body part.
+        @return: Body part spécifique.
+        '''
         try:
 
             bpDAO = BodyPartsDAO()
 
             bp: BodyPartsM.Body_parts = bpDAO.trouverUn(idBP)
 
-            if bp!=None :
+            if bp==None :
                 return "ERROR"
 
             return bp
@@ -44,10 +51,16 @@ class Body_parts:
 
     @staticmethod
     def ajouterUnBP(idBP, nameBP):
-
+        '''
+        Ajoute un body part.
+        @param idBP: ID du body part.
+        @param nameBP: Nom du body part.
+        @return: Statut de l'ajout du body part.
+        '''
         try:
 
             bpDAO = BodyPartsDAO()
+
             objBP = BodyPartsM.Body_parts()
 
             objBP.setBodyPartId(idBP)
@@ -55,7 +68,7 @@ class Body_parts:
 
             bp: int = bpDAO.insererUn(objBP)
 
-            if bp!=1 :
+            if bp==0:
                 return "ERROR"
 
             return "AJOUT BP AVEC SUCCES"
@@ -67,7 +80,12 @@ class Body_parts:
 
     @staticmethod
     def modifierUnBP(idBP, nameBP):
-
+        '''
+        Modifie un body part.
+        @param idBP: ID du body part.
+        @param nameBP: Nouveau nom du body part.
+        @return: Statut de la modification du body part.
+        '''
         try:
 
             bpDAO = BodyPartsDAO()
@@ -77,7 +95,7 @@ class Body_parts:
 
             bp: int = bpDAO.modifierUn(idBP, objBP)
 
-            if bp!=1 :
+            if bp==0 :
                 return "ERROR"
 
             return "MODIFICATION DE BP AVEC SUCCES"
@@ -88,15 +106,19 @@ class Body_parts:
         return None
 
     @staticmethod
-    def supprimerUnBP(idBP, nameBP):
-
+    def supprimerUnBP(idBP):
+        '''
+        Supprime un body part.
+        @param idBP: ID du body part.
+        @return: Statut de la suppression du body part.
+        '''
         try:
 
             bpDAO = BodyPartsDAO()
 
             bp: int = bpDAO.supprimerUn(idBP)
 
-            if bp!=1 :
+            if bp==0 :
                 return "ERROR"
 
             return "SUPPRESSION BP AVEC SUCCES"

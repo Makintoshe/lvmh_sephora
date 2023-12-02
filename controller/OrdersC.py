@@ -6,11 +6,18 @@ from model import ProductsM, OrdersM, OrderDetailsM, CustomersM, InvoicesM
 class Orders:
 
     @staticmethod
-    def passerCMD(idCMD,customer_id, order_date, status, invoices_id, order_detail : list[OrderDetail]):
-
+    def passerCMD(idCMD, customer_id, order_date, status, order_details : list[dict]):
+        """
+        Passer une commande.
+        @param idCMD: Identifiant de la commande.
+        @param customer_id: Identifiant du client.
+        @param order_date: Date de la commande.
+        @param status: Statut de la commande.
+        @param order_details: Liste des détails de la commande.
+        @return: Statut de la commande.
+        """
         try:
 
-            pM = ProductsM.Products()
             cM = CustomersM.Customers()
             oM = OrdersM.Orders()
             odM = OrderDetailsM.OrderDetail()
@@ -27,13 +34,24 @@ class Orders:
             oM.setOrderDate(order_date)
             oM.setStatus(status)
 
-            o_res: int = oDAO.insererUn(oM)
+            o_res = oDAO.insererUn(oM)
 
             # ajout des détails DE LA COMMANDE
 
             odDAO = OrderDetailsDAO()
 
-            od_res: int = odDAO.insererToutList(order_detail)
+            liste_order_details = []
+
+            for od in order_details:
+                #odM.setOrderDetailID(od["order_detail_id"])
+                odM.setProductID(od["product_id"])
+                odM.setOrderID(idCMD)
+                odM.setQuantity(od["quantity"])
+                odM.setTotalPrice(od["price"])
+
+                liste_order_details.append(odM)
+
+            od_res = odDAO.insererToutList(liste_order_details)
 
             # créer une facture
 
@@ -41,21 +59,21 @@ class Orders:
 
             montant_tot = 0
 
-            for od in order_detail:
+            for od in liste_order_details:
 
                 prix = od.getTotalPrice()
                 montant_tot += prix
 
             iM = InvoicesM.Invoices()
 
-            iM.setOrderID(invoices_id)
+            #iM.setInvoiceID(invoices_id)
             iM.setOrderID(idCMD)
             iM.setInvoiceDate(order_date)
             iM.setTotalAmount(montant_tot)
 
-            i_res: int = iDAO.insererUn(iM)
+            i_res = iDAO.insererUn(iM)
 
-            if o_res==1 and od_res==1 and i_res==1:
+            if o_res!=1 and od_res==1 or i_res==1:
                 return "COMMANDE PASSEE AVEC SUCCES !!!"
 
             return "ERROR"
@@ -67,7 +85,11 @@ class Orders:
 
     @staticmethod
     def annulerCMD(idCMD):
-
+        """
+        Annuler une commande.
+        @param idCMD: Identifiant de la commande à annuler.
+        @return: Statut de l'annulation.
+        """
         try:
 
             odDAO = OrdersDAO()
@@ -87,7 +109,13 @@ class Orders:
 
     @staticmethod
     def actualiserCMD(idCMD, date_maj, status):
-
+        """
+        Actualiser une commande.
+        @param idCMD: Identifiant de la commande à actualiser.
+        @param date_maj: Date de la mise à jour.
+        @param status: Nouveau statut de la commande.
+        @return: Statut de l'actualisation.
+        """
         try:
 
             oM = OrdersM.Orders()
@@ -111,14 +139,18 @@ class Orders:
 
     @staticmethod
     def visualiserCMD(idCMD):
-
+        """
+        Visualiser une commande par son identifiant.
+        @param idCMD: Identifiant de la commande à visualiser.
+        @return: Commande au format JSON.
+        """
         try:
 
             odDAO = OrdersDAO()
 
             cmd: OrdersM.Orders() = odDAO.trouverUn(idCMD)
 
-            if cmd!=None :
+            if cmd==None :
                 return "ERROR"
 
             return cmd
@@ -130,14 +162,18 @@ class Orders:
 
     @staticmethod
     def visualiserCMDCustom(idCustomer):
-
+        """
+        Visualiser les commandes d'un client.
+        @param idCustomer: Identifiant du client.
+        @return: Liste des commandes du client.
+        """
         try:
 
             odDAO = OrdersDAO()
 
             cmds: list[OrdersM.Orders()] = odDAO.trouverToutParUn(idCustomer)
 
-            if cmds!=None :
+            if cmds==None :
                 return "ERROR"
 
             return cmds
@@ -149,14 +185,19 @@ class Orders:
 
     @staticmethod
     def visualiserCMDByStatus(idCustomer, statut):
-
+        """
+        Visualiser les commandes d'un client par statut.
+        @param idCustomer: Identifiant du client.
+        @param statut: Statut des commandes à filtrer.
+        @return: Liste des commandes au format JSON.
+        """
         try:
 
             odDAO = OrdersDAO()
 
-            cmds: list[OrdersM.Orders()] = odDAO.filtrerCmdByStatus(statut, idCustomer)
+            cmds: list[OrdersM.Orders] = odDAO.filtrerCmdByStatus(statut, idCustomer)
 
-            if cmds!=None :
+            if cmds==None :
                 return "ERROR"
 
             return cmds
@@ -165,4 +206,6 @@ class Orders:
             print(f'Erreur_OrderC.visualiserCMDByStatus() ::: {e}')
 
         return None
+
+####
 

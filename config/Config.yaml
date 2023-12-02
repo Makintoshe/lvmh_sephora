@@ -1,8 +1,8 @@
 postgreSQLAccess :
-  database_name : "postgres"
-  host : "db.jkcgrjcnucizbuubbito.supabase.co"
-  port : "5432"
+  database_name :
+  host :
+  port :
   pwd :
-    pwd1 : "lvmh_sephora"
+    pwd1 :
   user :
-    usr1 : "postgres"
+    usr1 :

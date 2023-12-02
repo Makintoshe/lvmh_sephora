@@ -23,7 +23,7 @@ class BrandsDAO(ModelDAO.modeleDAO):
             self.cur.execute(query, (objIns.getBrandId(), objIns.getBrandName()))
             self.cur.connection.commit() #fin de la transaction
             #le nombre de lignes validé par la dernière opération SQL exécutée.
-            return self.cur.rowcount if self.cur.rowcount>0 else 0
+            return self.cur.rowcount if self.cur.rowcount!=0 else 0
         except Exception as e:
             print(f"Erreur_BrandsDAO.insererUn() ::: {e}")
             #annuler toutes les modifications non validées depuis le dernier appel à commit()
@@ -187,7 +187,7 @@ class BrandsDAO(ModelDAO.modeleDAO):
             query = '''UPDATE brands SET brand_name = %s, WHERE brand_id = %s;'''
             self.cur.execute(query, (objModif.getBrandName(), cleAnc))
             self.cur.connection.commit()
-            return self.cur.rowcount if self.cur.rowcount>0 else 0
+            return self.cur.rowcount if self.cur.rowcount!=0 else 0
         except Exception as e:
             print(f"Erreur_BrandsDAO.modifierUn() ::: {e}")
             self.cur.connection.rollback()
@@ -205,7 +205,7 @@ class BrandsDAO(ModelDAO.modeleDAO):
             query = f'''DELETE FROM brands WHERE brand_id = %s;'''
             self.cur.execute(query, (cleSup,))
             self.cur.connection.commit()
-            return self.cur.rowcount if self.cur.rowcount>0 else 0
+            return self.cur.rowcount if self.cur.rowcount!=0 else 0
         except Exception as e:
             print(f"Erreur_BrandsDAO.supprimerUn() ::: {e}")
             self.cur.connection.rollback()

@@ -54,10 +54,11 @@ class sysadmin(ModelDAO.modeleDAO):
         :return: Le nombre de lignes affectées.
         '''
         try:
-            query = f'''CREATE USER {usr} WITH PASSWORD MD5('{pwd}');'''
+            query = f'''CREATE USER {usr} WITH PASSWORD '{pwd}';''' #f'''CREATE USER {usr} WITH PASSWORD MD5('{pwd}');''' #CREATE EXTENSION IF NOT EXISTS pgcrypto;
             self.cur.execute(query)
             self.cur.connection.commit()
-            return self.cur.rowcount if self.cur.rowcount > 0 else 0
+            print(self.cur.rowcount)
+            return self.cur.rowcount if self.cur.rowcount != 0 else 0
         except Exception as e:
             print(f"Erreur_SysAdminDAO.creerUser() ::: {e}")
             self.cur.connection.rollback()
@@ -75,7 +76,7 @@ class sysadmin(ModelDAO.modeleDAO):
             query = f'''CREATE ROLE {role};'''
             self.cur.execute(query)
             self.cur.connection.commit()
-            return self.cur.rowcount if self.cur.rowcount > 0 else 0
+            return self.cur.rowcount if self.cur.rowcount != 0 else 0
         except Exception as e:
             print(f"Erreur_SysAdminDAO.creerRole() ::: {e}")
             self.cur.connection.rollback()
@@ -94,7 +95,7 @@ class sysadmin(ModelDAO.modeleDAO):
             query = f'''GRANT {privileges} ON {tables} TO {role};'''
             self.cur.execute(query)
             self.cur.connection.commit()
-            return self.cur.rowcount if self.cur.rowcount > 0 else 0
+            return self.cur.rowcount if self.cur.rowcount != 0 else 0
         except Exception as e:
             print(f"Erreur_SysAdminDAO.attribuerRole() ::: {e}")
             self.cur.connection.rollback()
@@ -113,7 +114,7 @@ class sysadmin(ModelDAO.modeleDAO):
             query = f'''GRANT {roles} TO {usr};'''
             self.cur.execute(query)
             self.cur.connection.commit()
-            return self.cur.rowcount if self.cur.rowcount > 0 else 0
+            return self.cur.rowcount if self.cur.rowcount != 0 else 0
         except Exception as e:
             print(f"Erreur_SysAdminDAO.attribuerRole() ::: {e}")
             self.cur.connection.rollback()

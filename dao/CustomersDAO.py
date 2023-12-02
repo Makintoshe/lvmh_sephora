@@ -23,7 +23,7 @@ class CustomersDAO(ModelDAO.modeleDAO):
             self.cur.execute(query, (objIns.getCustomerID(), objIns.getCustomerName(), objIns.getEmail(),
                                      objIns.getPhoneNumber()))
             self.cur.connection.commit()
-            return self.cur.rowcount if self.cur.rowcount > 0 else 0
+            return self.cur.rowcount if self.cur.rowcount != 0 else 0
         except Exception as e:
             print(f"Erreur_CustomersDAO.insererUn() ::: {e}")
             self.cur.connection.rollback()
@@ -42,7 +42,7 @@ class CustomersDAO(ModelDAO.modeleDAO):
                            VALUES (%s, %s, %s, %s);'''
             self.cur.executemany(query, [(obj.getCustomerID(), obj.getCustomerName(), obj.getEmail(), obj.getPhoneNumber()) for obj in objInsList])
             self.cur.connection.commit()
-            return self.cur.rowcount if self.cur.rowcount > 0 else 0
+            return self.cur.rowcount if self.cur.rowcount != 0 else 0
         except Exception as e:
             print(f"Erreur_CustomersDAO.insererToutList() ::: {e}")
             self.cur.connection.rollback()
@@ -184,7 +184,7 @@ class CustomersDAO(ModelDAO.modeleDAO):
                            WHERE customer_id = %s;'''
             self.cur.execute(query, (objModif.getCustomerName(), objModif.getEmail(), objModif.getPhoneNumber(), cleAnc))
             self.cur.connection.commit()
-            return self.cur.rowcount if self.cur.rowcount > 0 else 0
+            return self.cur.rowcount if self.cur.rowcount != 0 else 0
         except Exception as e:
             print(f"Erreur_CustomersDAO.modifierUn() ::: {e}")
             self.cur.connection.rollback()
@@ -202,7 +202,7 @@ class CustomersDAO(ModelDAO.modeleDAO):
             query = '''DELETE FROM customers WHERE customer_id = %s;'''
             self.cur.execute(query, (cleSup,))
             self.cur.connection.commit()
-            return self.cur.rowcount if self.cur.rowcount > 0 else 0
+            return self.cur.rowcount if self.cur.rowcount != 0 else 0
         except Exception as e:
             print(f"Erreur_CustomersDAO.supprimerUn() ::: {e}")
             self.cur.connection.rollback()

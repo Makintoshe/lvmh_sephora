@@ -21,7 +21,7 @@ class BodyPartsDAO(ModelDAO.modeleDAO):
                        VALUES (%s, %s);'''
             self.cur.execute(query, (objIns.getBodyPartId(),objIns.getBodyPartName(),))
             self.cur.connection.commit()
-            return self.cur.rowcount if self.cur.rowcount > 0 else 0
+            return self.cur.rowcount if self.cur.rowcount != 0 else 0
         except Exception as e:
             print(f"Erreur_BodyPartsDAO.insererUn() ::: {e}")
             self.cur.connection.rollback()
@@ -146,7 +146,7 @@ class BodyPartsDAO(ModelDAO.modeleDAO):
             query = '''UPDATE body_parts SET body_part_name = %s WHERE body_part_id = %s;'''
             self.cur.execute(query, (objModif.getBodyPartName(), cleAnc))
             self.cur.connection.commit()
-            return self.cur.rowcount if self.cur.rowcount > 0 else 0
+            return self.cur.rowcount if self.cur.rowcount != 0 else 0
         except Exception as e:
             print(f"Erreur_BodyPartsDAO.modifierUn() ::: {e}")
             self.cur.connection.rollback()
@@ -163,7 +163,7 @@ class BodyPartsDAO(ModelDAO.modeleDAO):
             query = f'''DELETE FROM body_parts WHERE body_part_id = %s;'''
             self.cur.execute(query, (cleSup,))
             self.cur.connection.commit()
-            return self.cur.rowcount if self.cur.rowcount > 0 else 0
+            return self.cur.rowcount if self.cur.rowcount != 0 else 0
         except Exception as e:
             print(f"Erreur_BodyPartsDAO.supprimerUn() ::: {e}")
             self.cur.connection.rollback()

@@ -21,7 +21,7 @@ class GendersDAO(ModelDAO.modeleDAO):
                        VALUES (%s, %s);'''
             self.cur.execute(query, (objIns.getGendersID(), objIns.getGenderName()))
             self.cur.connection.commit()
-            return self.cur.rowcount if self.cur.rowcount > 0 else 0
+            return self.cur.rowcount if self.cur.rowcount != 0 else 0
         except Exception as e:
             print(f"Erreur_GendersDAO.insererUn() ::: {e}")
             self.cur.connection.rollback()
@@ -147,7 +147,7 @@ class GendersDAO(ModelDAO.modeleDAO):
             query = '''UPDATE genders SET gender_name = %s WHERE gender_id = %s;'''
             self.cur.execute(query, (objModif.getGenderName(), cleAnc))
             self.cur.connection.commit()
-            return self.cur.rowcount if self.cur.rowcount > 0 else 0
+            return self.cur.rowcount if self.cur.rowcount != 0 else 0
         except Exception as e:
             print(f"Erreur_GendersDAO.modifierUn() ::: {e}")
             self.cur.connection.rollback()
@@ -164,7 +164,7 @@ class GendersDAO(ModelDAO.modeleDAO):
             query = f'''DELETE FROM genders WHERE gender_id = %s;'''
             self.cur.execute(query, (cleSup,))
             self.cur.connection.commit()
-            return self.cur.rowcount if self.cur.rowcount > 0 else 0
+            return self.cur.rowcount if self.cur.rowcount != 0 else 0
         except Exception as e:
             print(f"Erreur_GendersDAO.supprimerUn() ::: {e}")
             self.cur.connection.rollback()

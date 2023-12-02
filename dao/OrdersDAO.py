@@ -20,12 +20,11 @@ class OrdersDAO(ModelDAO.modeleDAO):
         '''
         try:
             query = '''INSERT INTO orders (order_id, customer_id, order_date, status) 
-                       VALUES (%s, %s, %s, %s);'''
-            self.cur.execute(query, (objIns.getOrderID(),
-                                     objIns.getCustomerID(),
+                       VALUES ((SELECT MAX(order_id)+1 as order_id FROM orders), %s, %s, %s);'''
+            self.cur.execute(query, (objIns.getCustomerID().getCustomerID(),
                                      objIns.getOrderDate(), objIns.getStatus()))
             self.cur.connection.commit()
-            return self.cur.rowcount if self.cur.rowcount>0 else 0
+            return self.cur.rowcount if self.cur.rowcount!=0 else 0
         except Exception as e:
             print(f"Erreur_OrdersDAO.insererUn() ::: {e}")
             self.cur.connection.rollback()
@@ -159,7 +158,7 @@ class OrdersDAO(ModelDAO.modeleDAO):
             query = '''UPDATE orders SET order_date = %s, status = %s WHERE order_id = %s;'''
             self.cur.execute(query, (objModif.getOrderDate(), objModif.getStatus(), cleAnc))
             self.cur.connection.commit()
-            return self.cur.rowcount if self.cur.rowcount > 0 else 0
+            return self.cur.rowcount if self.cur.rowcount != 0 else 0
         except Exception as e:
             print(f"Erreur_OrdersDAO.modifierUn() ::: {e}")
             self.cur.connection.rollback()
@@ -178,7 +177,7 @@ class OrdersDAO(ModelDAO.modeleDAO):
             query = f'''DELETE FROM orders WHERE order_id = %s;'''
             self.cur.execute(query, (cleSup,))
             self.cur.connection.commit()
-            return self.cur.rowcount if self.cur.rowcount > 0 else 0
+            return self.cur.rowcount if self.cur.rowcount != 0 else 0
         except Exception as e:
             print(f"Erreur_OrdersDAO.supprimerUn() ::: {e}")
             self.cur.connection.rollback()
@@ -190,16 +189,17 @@ class OrdersDAO(ModelDAO.modeleDAO):
 
     def filtrerCmdByStatus(self, statut, idCust) -> list:
         try:
-            query = '''SELECT o.order_id, o.order_date,
+            query = f'''SELECT o.order_id, o.order_date,
                           CASE 
                             WHEN o.status = 'Expédiée' THEN 'vous pouvez encore annuler'
                             WHEN o.status = 'Livrée' THEN 'impossible de modifier ou annuler'
                             WHEN o.status = 'Annulée' THEN 'aucune possibilité'
                             WHEN o.status = 'En attente' THEN 'vous pouvez encore modifier ou annuler'
                             ELSE 'contactez le service client'
-                          END as action_possible
-                   FROM orders o, customers cust
-                   WHERE o.status = %s AND cust = %s;'''
+                          END
+                   FROM orders o
+                   WHERE o.status=%s AND o.customer_id=%s;'''
+
             self.cur.execute(query, (statut,idCust))
             res = self.cur.fetchall()
 

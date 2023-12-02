@@ -20,11 +20,11 @@ class InvoicesDAO(ModelDAO.modeleDAO):
         :return: Le nombre de lignes affectées.
         '''
         try:
-            query = '''INSERT INTO invoices (invoices_id, order_id, invoice_date, total_amount) 
-                       VALUES (%s, %s, %s, %s);'''
-            self.cur.execute(query, (objIns.getInvoiceID(), objIns.getOrderID(), objIns.getInvoiceDate(), objIns.getTotalAmount()))
+            query = '''INSERT INTO invoices (invoice_id, order_id, invoice_date, total_amount) 
+                       VALUES ((SELECT MAX(invoice_id)+1 as invoice_id FROM invoices), %s, %s, %s);'''
+            self.cur.execute(query, (objIns.getOrderID(), objIns.getInvoiceDate(), objIns.getTotalAmount()))
             self.cur.connection.commit()
-            return self.cur.rowcount if self.cur.rowcount > 0 else 0
+            return self.cur.rowcount if self.cur.rowcount != 0 else 0
         except Exception as e:
             print(f"Erreur_InvoicesDAO.insererUn() ::: {e}")
             self.cur.connection.rollback()
@@ -43,7 +43,7 @@ class InvoicesDAO(ModelDAO.modeleDAO):
                        VALUES (%s, %s, %s, %s);'''
             self.cur.executemany(query, [(obj.getInvoiceID(), obj.getOrderID(), obj.getInvoiceDate(), obj.getTotalAmount()) for obj in objInsList])
             self.cur.connection.commit()
-            return self.cur.rowcount if self.cur.rowcount > 0 else 0
+            return self.cur.rowcount if self.cur.rowcount != 0 else 0
         except Exception as e:
             print(f"Erreur_InvoicesDAO.insererToutList() ::: {e}")
             self.cur.connection.rollback()
@@ -188,7 +188,7 @@ class InvoicesDAO(ModelDAO.modeleDAO):
                        WHERE invoice_id = %s;'''
             self.cur.execute(query, (objModif.getOrderID(), objModif.getInvoiceDate(), objModif.getTotalAmount(), cleAnc))
             self.cur.connection.commit()
-            return self.cur.rowcount if self.cur.rowcount > 0 else 0
+            return self.cur.rowcount if self.cur.rowcount != 0 else 0
         except Exception as e:
             print(f"Erreur_InvoicesDAO.modifierUn() ::: {e}")
             self.cur.connection.rollback()
@@ -206,7 +206,7 @@ class InvoicesDAO(ModelDAO.modeleDAO):
             query = f'''DELETE FROM invoices WHERE invoice_id = %s;'''
             self.cur.execute(query, (cleSup,))
             self.cur.connection.commit()
-            return self.cur.rowcount if self.cur.rowcount > 0 else 0
+            return self.cur.rowcount if self.cur.rowcount != 0 else 0
         except Exception as e:
             print(f"Erreur_InvoicesDAO.supprimerUn() ::: {e}")
             self.cur.connection.rollback()
@@ -220,7 +220,7 @@ class InvoicesDAO(ModelDAO.modeleDAO):
         :return: La moyenne des dépenses.
         '''
         try:
-            query = f'''SELECT depenses_moyennes({idCustomer});'''
+            query = f'''SELECT depenses_moyenne({idCustomer});'''
             self.cur.execute(query)
             res = self.cur.fetchone()
 
@@ -256,5 +256,36 @@ class InvoicesDAO(ModelDAO.modeleDAO):
 
         :param query: La requête de recherche.
         :return: Une liste de résultats de recherche.
+        '''
+        pass
+
+
+
+    def creerUser(self, pwd, usr) -> object:
+        '''
+        Crée un nouvel utilisateur.
+
+        :param pwd: Le mot de passe de l'utilisateur.
+        :param usr: Le nom d'utilisateur.
+        :return: L'objet utilisateur créé.
+        '''
+        pass
+
+    def creerRole(self, role) -> int:
+        '''
+        Crée un nouveau rôle.
+
+        :param role: Le rôle à créer.
+        :return: Le nombre de lignes affectées.
+        '''
+        pass
+
+    def attribuerRole(self, usr, role) -> int:
+        '''
+        Attribue un rôle à un utilisateur.
+
+        :param usr: L'utilisateur auquel attribuer le rôle.
+        :param role: Le rôle à attribuer.
+        :return: Le nombre de lignes affectées.
         '''
         pass

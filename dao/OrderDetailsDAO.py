@@ -25,14 +25,14 @@ class OrderDetailsDAO(ModelDAO.modeleDAO):
             self.cur.execute(query, (objIns.getOrderID(), objIns.getOrderID(), objIns.getProductID(),
                                      objIns.getQuantity(), objIns.getTotalPrice()))
             self.cur.connection.commit()
-            return self.cur.rowcount if self.cur.rowcount > 0 else 0
+            return self.cur.rowcount if self.cur.rowcount != 0 else 0
         except Exception as e:
             print(f"Erreur_OrderDetailsDAO.insererUn() ::: {e}")
             self.cur.connection.rollback()
         finally:
             self.cur.close()
 
-    def insererToutList(self, objInsList: list[OrderDetail]) -> int:
+    def insererToutList(self, objInsList: list[OrderDetail])->int:
         '''
         Insère une liste d'objets dans la table OrderDetails.
 
@@ -40,12 +40,12 @@ class OrderDetailsDAO(ModelDAO.modeleDAO):
         :return: Le nombre de lignes affectées.
         '''
         try:
-            query = '''INSERT INTO order_details (order_detail_id, order_id, product_id, quantity, total_price) 
-                       VALUES (%s, %s, %s, %s, %s);'''
-            self.cur.executemany(query, [(obj.getOrderDetailID(), obj.getOrderID(), obj.getProductID(),
-                                          obj.getQuantity(), obj.getTotalPrice()) for obj in objInsList])
+            for obj in objInsList:
+                query = '''INSERT INTO order_details(order_detail_id, order_id, product_id, quantity, total_price) 
+                           VALUES( (SELECT MAX(order_detail_id)+1 as order_detail_id FROM order_details), %s, %s, %s, %s);'''
+                self.cur.execute(query, (obj.getOrderID(), obj.getProductID(), obj.getQuantity(), obj.getTotalPrice()))
             self.cur.connection.commit()
-            return self.cur.rowcount if self.cur.rowcount > 0 else 0
+            return self.cur.rowcount if self.cur.rowcount != 0 else 0
         except Exception as e:
             print(f"Erreur_OrderDetailsDAO.insererToutList() ::: {e}")
             self.cur.connection.rollback()
@@ -208,7 +208,7 @@ class OrderDetailsDAO(ModelDAO.modeleDAO):
             self.cur.execute(query, (objModif.getOrderID(), objModif.getProductID(),
                                      objModif.getQuantity(), objModif.getTotalPrice(), cleAnc))
             self.cur.connection.commit()
-            return self.cur.rowcount if self.cur.rowcount > 0 else 0
+            return self.cur.rowcount if self.cur.rowcount != 0 else 0
         except Exception as e:
             print(f"Erreur_OrderDetailsDAO.modifierUn() ::: {e}")
             self.cur.connection.rollback()
@@ -226,7 +226,7 @@ class OrderDetailsDAO(ModelDAO.modeleDAO):
             query = '''DELETE FROM order_details WHERE order_detail_id = %s;'''
             self.cur.execute(query, (cleSup,))
             self.cur.connection.commit()
-            return self.cur.rowcount if self.cur.rowcount > 0 else 0
+            return self.cur.rowcount if self.cur.rowcount != 0 else 0
         except Exception as e:
             print(f"Erreur_OrderDetailsDAO.supprimerUn() ::: {e}")
             self.cur.connection.rollback()

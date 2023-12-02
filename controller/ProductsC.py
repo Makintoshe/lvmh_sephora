@@ -7,8 +7,12 @@ from dao.ProductsDAO import *
 class Products:
 
     @staticmethod
-    def ajouterProd(prodObj: Products)->int:
-
+    def ajouterProd(prodObj: Products)->int|str:
+        """
+        Ajouter un produit.
+        @param prodObj: Objet produit à ajouter.
+        @return: Statut de l'ajout du produit.
+        """
         try:
 
             prodDAO = ProductsDAO()
@@ -27,8 +31,15 @@ class Products:
         return None
 
     @staticmethod
-    def modifierProd(prodId, name, price, qty)->int:
-
+    def modifierProd(prodId, name, price, qty)->int|str:
+        """
+        Modifier un produit.
+        @param prodId: Identifiant du produit à modifier.
+        @param name: Nouveau nom du produit.
+        @param price: Nouveau prix du produit.
+        @param qty: Nouvelle quantité en stock.
+        @return: Statut de la modification du produit.
+        """
         try:
 
             prodDAO = ProductsDAO()
@@ -54,8 +65,12 @@ class Products:
 
 
     @staticmethod
-    def consulterUnProd(prodName: str)->Products:
-
+    def consulterUnProd(prodName: str)->Products|str:
+        """
+        Consulter un produit par nom.
+        @param prodName: Nom du produit à consulter.
+        @return: Informations sur le produit au format JSON.
+        """
         try:
 
             prodDAO = ProductsDAO()
@@ -73,15 +88,19 @@ class Products:
 
         return None
 
-    def consulterUnProdbyId(prodId: int)->Products:
-
+    def consulterUnProdbyId(prodId: int)->Products|str:
+        """
+        Consulter un produit par identifiant.
+        @param prodId: Identifiant du produit à consulter.
+        @return: Informations sur le produit au format JSON.
+        """
         try:
 
             prodDAO = ProductsDAO()
 
             modProd: model.ProductsM.Products = prodDAO.trouverUn(prodId)
 
-            if modProd==0:
+            if modProd == 0:
                 return "ERROR"
 
             return "MISE A JOUR PRODUIT AVEC SUCCES"
@@ -93,15 +112,18 @@ class Products:
         return None
 
     @staticmethod
-    def consulterCatalogueProd()->list[Products]:
-
+    def consulterCatalogueProd()->list[dict]|str:
+        """
+        Consulter le catalogue des produits.
+        @return: Liste des produits au format JSON.
+        """
         try:
 
             prodDAO = ProductsDAO()
 
-            listProds: list[model.ProductsM.Products] = prodDAO.trouverTout()
+            listProds = prodDAO.catalogueProduits()
 
-            if listProds==None:
+            if listProds == None:
                 return "ERROR"
 
             return listProds
@@ -113,7 +135,12 @@ class Products:
         return None
 
     @staticmethod
-    def supprimerProd(prodId)->int:
+    def supprimerProd(prodId)->int|str:
+        """
+        Supprimer un produit.
+        @param prodId: Identifiant du produit à supprimer.
+        @return: Statut de la suppression du produit.
+        """
 
         try:
 
@@ -121,7 +148,7 @@ class Products:
 
             delProd: int = prodDAO.supprimerUn(prodId)
 
-            if delProd==0:
+            if delProd == 0:
                 return "ERROR"
 
             return "SUPPRESSION PRODUIT AVEC SUCCES"
@@ -132,15 +159,18 @@ class Products:
 
 
     @staticmethod
-    def filtrerProdByPrice()->list[Products]:
-
+    def filtrerProdByPrice() -> list[Products] | str:
+        """
+        Filtrer les produits par prix.
+        @return: Liste des produits filtrés au format JSON.
+        """
         try:
 
             prodDAO = ProductsDAO()
 
             listProds: list[model.ProductsM.Products] = prodDAO.sortProductByPrice()
 
-            if listProds==None:
+            if listProds == None:
                 return "ERROR"
 
             return listProds
@@ -152,15 +182,19 @@ class Products:
         return None
 
     @staticmethod
-    def search_product_by_name(keyword) -> list[Products]:
-
+    def search_product_by_name(keyword) -> list[Products]|str:
+        """
+        Rechercher des produits par nom.
+        @param keyword: Mot-clé de recherche.
+        @return: Liste des produits correspondant à la recherche au format JSON.
+        """
         try:
 
             prodDAO = ProductsDAO()
 
             listProds: list[model.ProductsM.Products] = prodDAO.searchPleinText(keyword)
 
-            if listProds==None:
+            if listProds == None:
                 return "ERROR"
 
             return listProds

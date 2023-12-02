@@ -1,6 +1,8 @@
 from controller.BrandsC import Brands
 
-liste_brands = Brands().visualiserBrands()
+#br = Brands()
+
+liste_brands = Brands.visualiserBrands()
 
 print(liste_brands)
 
@@ -14,9 +16,9 @@ for b in liste_brands:
 
     nom = b.getBrandName()
 
-    listeB.append((idb,nom))
-
     print(idb, nom)
+
+    listeB.append((idb,nom)) # [], {}, (a,b)
 
 print("**********************************")
 

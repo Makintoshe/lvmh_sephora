@@ -27,7 +27,7 @@ class ProductsDAO(ModelDAO.modeleDAO):
                                      objIns.getBrandID(), objIns.getBodyPartID(),
                                      objIns.getGenderID(), objIns.getPrice(), objIns.getStockQuantity()))
             self.cur.connection.commit()
-            return self.cur.rowcount if self.cur.rowcount > 0 else 0
+            return self.cur.rowcount if self.cur.rowcount != 0 else 0
         except Exception as e:
             print(f"Erreur_ProductsDAO.insererUn() ::: {e}")
             self.cur.connection.rollback()
@@ -114,9 +114,9 @@ class ProductsDAO(ModelDAO.modeleDAO):
             if len(res) > 0:
                 for r in res:
                     produit = Products()
-                    produit.setProductId(r[0])
+                    produit.setProductID(r[0])
                     produit.setProductName(r[1])
-                    produit.setProductPrice(r[2])
+                    produit.setPrice(r[2])
                     # Ajouter d'autres attributs au besoin
                     liste_produits.append(produit)
 
@@ -147,9 +147,9 @@ class ProductsDAO(ModelDAO.modeleDAO):
             if len(res) > 0:
                 for r in res:
                     produit = Products()
-                    produit.setProductId(r[0])
+                    produit.setProductID(r[0])
                     produit.setProductName(r[1])
-                    produit.setProductPrice(r[2])
+                    produit.setPrice(r[2])
                     # Ajouter d'autres attributs au besoin
                     liste_produits.append(produit)
 
@@ -173,9 +173,9 @@ class ProductsDAO(ModelDAO.modeleDAO):
         '''
         try:
             query = '''UPDATE products SET product_name = %s, product_price = %s, stock_quantity = %s WHERE product_id = %s;'''
-            self.cur.execute(query, (objModif.getProductName(), objModif.getProductPrice(), objModif.getStockQuantity(), cleAnc))
+            self.cur.execute(query, (objModif.getProductName(), objModif.getPrice(), objModif.getStockQuantity(), cleAnc))
             self.cur.connection.commit()
-            return self.cur.rowcount if self.cur.rowcount > 0 else 0
+            return self.cur.rowcount if self.cur.rowcount != 0 else 0
 
         except Exception as e:
             print(f"Erreur_ProductsDAO.modifierUn() ::: {e}")
@@ -194,7 +194,7 @@ class ProductsDAO(ModelDAO.modeleDAO):
             query = f'''DELETE FROM products WHERE product_id = %s;'''
             self.cur.execute(query, (cleSup,))
             self.cur.connection.commit()
-            return self.cur.rowcount if self.cur.rowcount > 0 else 0
+            return self.cur.rowcount if self.cur.rowcount != 0 else 0
 
         except Exception as e:
             print(f"Erreur_ProductsDAO.supprimerUn() ::: {e}")
@@ -270,7 +270,8 @@ class ProductsDAO(ModelDAO.modeleDAO):
                     produit = Products()
                     produit.setProductID(r[0])
                     produit.setProductName(r[1])
-                    produit.setPrice(r[2])
+                    produit.setPrice(r[5])
+                    produit.setStockQuantity(r[6])
                     liste_produits.append(produit)
 
                 return liste_produits
@@ -314,7 +315,7 @@ class ProductsDAO(ModelDAO.modeleDAO):
 
     #######################################################################################################################
 
-    def catalogueProduits(self) -> list[dict]:
+    def catalogueProduits(self)->list[dict]:
         '''
         Récupère le produit et ses descriptions de façon explicite.
 
@@ -322,7 +323,7 @@ class ProductsDAO(ModelDAO.modeleDAO):
         '''
         try:
             query = '''SELECT p.product_name, b.brand_name, bp.body_part_name, g.gender_name, p.price, p.stock_quantity
-             FROM products p, brands b, body_parts bp
+             FROM products p, brands b, body_parts bp, genders g
              WHERE p.brand_id=b.brand_id
              AND p.body_part_id=bp.body_part_id;'''
             self.cur.execute(query)
@@ -344,6 +345,6 @@ class ProductsDAO(ModelDAO.modeleDAO):
             else:
                 return None
         except Exception as e:
-            print(f"Erreur_ProductsDAO.trouverTout() ::: {e}")
+            print(f"Erreur_ProductsDAO.catalogueProduits() ::: {e}")
         finally:
             self.cur.close()
