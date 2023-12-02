@@ -1,5 +1,7 @@
 # API LVMH Sephora
 
+brève documentation : https://lvmh-sephora.readthedocs.io/fr/latest/
+
 L'API LVMH Sephora est une interface de programmation permettant d'interagir avec la base de données de Sephora, une société de produits de beauté et de parfumerie appartenant au groupe LVMH.
 
 **Ici je tiens à souligner que cette base de données est avant tout fictive, car inventée par mes propres soins,
