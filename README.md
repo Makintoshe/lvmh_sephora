@@ -5,7 +5,7 @@ L'API LVMH Sephora est une interface de programmation permettant d'interagir ave
 **Ici je tiens à souligner que cette base de données est avant tout fictive, car inventée par mes propres soins,
 dans le cadre du cours de Base de Données Avancées que je dispense en Master 1 Data Engineer.**
 
-l'objectif de ce cours était double : 
+l'objectif de ce cours était triple : 
 
 - Faire du postgreSQL en utilisant des mécanimses d'optimisations de requêtes et aborder la notion des extensions
 - Mettre en place une api qui interagit avec cette base de données, dans le but d'emmener les étudiants à appréhender en profondeur la nécessité 
@@ -25,7 +25,7 @@ Pour notre API, avons utilisé :
 
 1. Dans le dossier api > `python mainFlask.py` ou `python mainFast.py`
 
-2. Dans les deux cas, l'adresse est :  `http://127.0.0.1:5000` ou `http://10.188.255.1:5000` ou `http://localhost:5000`
+2. Dans les deux cas, l'adresse est :  `http://127.0.0.1:5000` ou `http://10.188.255.1:5000` ou `http://localhost:5000` ou `http://0.0.0.0:5000`
 
 ## Fonctionnalités principales pour FlaskAPI
 
