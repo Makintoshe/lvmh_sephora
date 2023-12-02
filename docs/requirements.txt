@@ -25,3 +25,4 @@ tzdata==2023.3
 uvicorn @ file:///work/ci_py311_2/uvicorn-split_1679340461072/work
 Werkzeug @ file:///croot/werkzeug_1679489717957/work
 sphinx_rtd_theme
+Sphinx
