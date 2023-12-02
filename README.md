@@ -25,7 +25,7 @@ Pour notre API, avons utilisé :
 
 1. Dans le dossier api > `python mainFlask.py` ou `python mainFast.py`
 
-2. Dans les deux cas, l'adresse est :  `http://127.0.0.1:5000` ou `http://10.188.255.1:5000` ou `http://localhost:5000`
+2. Dans les deux cas, l'adresse est :  `http://127.0.0.1:5000` ou `http://10.188.255.1:5000` ou `http://localhost:5000` ou `http://0.0.0.0:5000`
 
 ## Fonctionnalités principales pour FlaskAPI
 
