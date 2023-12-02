@@ -89,3 +89,8 @@ MULAPI TITA Ketsia (contact@ketsiamulapi.com)
 ## Licence
 
 Ce projet est sous licence MIT - voir le fichier `LICENSE` pour plus de détails.
+
+## documentation sphinx readthedoc 
+
+
+![img.png](utils/imgDoc.png) 
