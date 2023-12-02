@@ -4,7 +4,7 @@
 
 project = 'LVMH-sephora'
 copyright = '2023, MULAPI'
-author = 'ketsia MULAPI TITA'
+author = 'Ketsia MULAPI TITA'
 
 release = '0.1'
 version = '0.1.0'
