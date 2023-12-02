@@ -94,5 +94,6 @@ Ce projet est sous licence MIT - voir le fichier `LICENSE` pour plus de détails
 
 ## documentation sphinx readthedoc 
 
+Vous pouvez retrouver la documentation dans le chemin suivant : /lvmh_sephora/docs/_build/index.html 
 
 ![img.png](utils/imgDoc.png) 
