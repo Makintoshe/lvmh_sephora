@@ -10,16 +10,17 @@ dans le cadre du cours de Base de Données Avancées que je dispense en Master 1
 l'objectif de ce cours était triple :
 
 - Faire du postgreSQL en utilisant des mécanimses d'optimisations de requêtes et aborder la notion des extensions
-- Mettre en place une api qui interagit avec cette base de données, dans le but d'emmener les étudiants à appréhender en profondeur la nécessité
-d'une bonne modélisation avec UML dans le respect des normes de l'industrie du génie logiciel
-- enfin, de mieux maîtriser les notions de roles, users et privilèges dans la manipulation d'une base de données ainsi que leurs impactes au sein d'une application
 
-Pour notre API, avons utilisé :
+- Mettre en place une api qui interagit avec cette base de données, dans le but d'emmener les étudiants à appréhender en profondeur la nécessité d'une bonne modélisation avec UML dans le respect des normes de l'industrie du génie logiciel
+
+- Enfin, de mieux maîtriser les notions de roles, users et privilèges dans la manipulation d'une base de données ainsi que leurs impactes au sein d'une application
+
+Pour notre API, nous avons utilisé :
 
 - le patron de conception DAO
 - le langage python
 - 2 exemples de framework comme point d'accès : Flask (dont les routes sort reprises ci-dessous) et Fast (repris dans sa doc automatique)
-- une base d données postgreSQL sur supabase
+- une base de données postgreSQL sur supabase
 - connecté la bd supabase sur le client pgAdmin
 - Et enfin nous avons généré une documentation grace à https://readthedocs.org/
 
