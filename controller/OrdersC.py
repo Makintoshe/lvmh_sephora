@@ -2,6 +2,7 @@ import model.ProductsM
 from dao.OrdersDAO import *
 from dao.OrderDetailsDAO import *
 from dao.InvoicesDAO import *
+from dao.ProductsDAO import *
 from model import ProductsM, OrdersM, OrderDetailsM, CustomersM, InvoicesM
 class Orders:
 
@@ -18,6 +19,7 @@ class Orders:
         """
         try:
 
+            pM = ProductsM.Products()
             cM = CustomersM.Customers()
             oM = OrdersM.Orders()
             odM = OrderDetailsM.OrderDetail()
@@ -47,6 +49,18 @@ class Orders:
                 odM.setProductID(od["product_id"])
                 odM.setOrderID(idCMD)
                 odM.setQuantity(od["quantity"])
+
+                # Mise à jour des nouvelles quantités des produits
+
+                pid = od["product_id"]
+                pM.setStockQuantity(od["quantity"])
+                pDAO = ProductsDAO()
+                p_res = pDAO.modifierUneQte(pid, pM)
+                if p_res!=0:
+                    return f"Quantité de produit en stock actualisé pour ::: {od['product_id']} !!!"
+
+                # Poursuite avec l'enregistrement dse order details
+
                 odM.setTotalPrice(od["price"])
 
                 liste_order_details.append(odM)
@@ -73,7 +87,7 @@ class Orders:
 
             i_res = iDAO.insererUn(iM)
 
-            if o_res!=1 and od_res==1 or i_res==1:
+            if o_res!=0 and od_res!=0 or i_res!=0:
                 return "COMMANDE PASSEE AVEC SUCCES !!!"
 
             return "ERROR"

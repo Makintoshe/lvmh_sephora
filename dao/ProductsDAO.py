@@ -183,6 +183,26 @@ class ProductsDAO(ModelDAO.modeleDAO):
         finally:
             self.cur.close()
 
+    def modifierUneQte(self, cleAnc, objModif: Products) -> int:
+        '''
+        Modifie un enregistrement dans la table Products.
+
+        :param cleAnc: La clé de l'enregistrement à modifier.
+        :param objModif: Les nouvelles données à mettre à jour.
+        :return: Le nombre de lignes affectées.
+        '''
+        try:
+            query = '''UPDATE products SET stock_quantity = stock_quantity - %s WHERE product_id = %s;'''
+            self.cur.execute(query, (objModif.getStockQuantity(), cleAnc))
+            self.cur.connection.commit()
+            return self.cur.rowcount if self.cur.rowcount != 0 else 0
+
+        except Exception as e:
+            print(f"Erreur_ProductsDAO.modifierUn() ::: {e}")
+            self.cur.connection.rollback()
+        finally:
+            self.cur.close()
+
     def supprimerUn(self, cleSup) -> int:
         '''
         Supprime un enregistrement de la table Products.
